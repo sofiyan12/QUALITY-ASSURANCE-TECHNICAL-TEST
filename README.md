@@ -1,7 +1,5 @@
-# QA Technical Test – 
+# QA Technical Test
 Studi Kasus 1: Booking Validation
-
-Repositori ini berisi test case manual dan script automation API untuk memvalidasi fitur booking lapangan berdasarkan studi kasus teknikal QA.
 
 ## Struktur Repository
 
