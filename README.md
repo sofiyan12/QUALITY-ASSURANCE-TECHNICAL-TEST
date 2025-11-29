@@ -1,4 +1,5 @@
-# QA Technical Test – Studi Kasus 1: Booking Validation
+# QA Technical Test – 
+Studi Kasus 1: Booking Validation
 
 Repositori ini berisi test case manual dan script automation API untuk memvalidasi fitur booking lapangan berdasarkan studi kasus teknikal QA.
 
@@ -64,4 +65,68 @@ Test case mencakup:
 - Validasi slot tidak valid
 - Validasi double booking oleh user sama maupun berbeda
 - Validasi kombinasi waktu booking
+
+Studi Kasus 2 – Analisis Pengujian Website & Aplikasi AYO
+
+1. Website AYO (https://ayo.co.id)
+**Fokus: Stabilitas Transaksi**
+
+Di versi web, pengguna cenderung melakukan booking dan riset harga. Bug terkait transaksi dan kompatibilitas browser bisa sangat berdampak.
+
+### Strategi Pengujian:
+
+#### **Prioritas 1 – Stok Lapangan **
+- **Mekanisme**: Concurrency Testing  
+- **Simulasi**: Dua user booking slot yang sama di waktu bersamaan  
+- **Tujuan**: Hanya satu yang berhasil booking, yang lain mendapat error yang jelas  
+- **Alasan**: Ini adalah bug paling fatal dalam bisnis sewa lapangan
+
+#### **Prioritas 2 – Payment Gateway**
+- **Mekanisme**: Integration Testing  
+- **Skenario**: Simulasi kegagalan saat pembayaran (internet mati, respon lambat)  
+- **Validasi**: Status booking jadi 'Pending' atau 'Failed'? Uang terpotong tapi booking gagal?
+
+#### **Prioritas 3 – Responsiveness & Cross-Browser**
+- **Mekanisme**: UI & Layout Testing  
+- **Fokus**: Tampilan kalender/jadwal booking di Chrome vs Safari, Desktop vs Tablet  
+- **Tujuan**: Hindari bug UI seperti elemen jam yang tidak terbaca atau tertutup
+
+---
+
+## 2. Aplikasi AYO (Android/iOS)  
+🎯 **Fokus: User Experience & Fitur Eksklusif**
+
+### Strategi Pengujian:
+
+#### **Prioritas 1 – Fitur Eksklusif App (Reschedule & Cancel)**
+- **Mekanisme**: Regression Testing  
+- **Skenario**: Booking di-reschedule, pastikan slot lama kembali tersedia  
+- **Tujuan**: Hindari kasus ghost booking akibat stok yang tidak perbarui
+
+#### **Prioritas 2 – Notifikasi Real-time & Akses Lokasi**
+- **Mekanisme**: Interrupt Testing  
+- **Skenario**: Ada telepon/sms saat sedang memilih lapangan → aplikasi harus tetap stabil  
+- **Fitur**: ‘Main Bareng’ → notifikasi push saat ada sparring baru harus realtime dan tidak delay
+
+#### **Prioritas 3 – Device Fragmentation**
+- **Mekanisme**: Compatibility Testing di real device
+- **Fokus**: HP low-end (RAM kecil) atau koneksi lambat  
+- **Tujuan**: Pastikan aplikasi tidak crash atau lemot saat load venue banyak
+
+---
+
+## 3. Rekomendasi Metode Testing
+
+Saya merekomendasikan pendekatan **Hybrid Testing**:
+
+### Core Function (Wajib Automation – Regression / E2E):
+- Alur: **Login → Cari → Booking → Bayar**
+- Metode: UI automation (Selenium/Web) + API test
+- Alasan: Ini adalah alur “core bisnis” → wajib dites setiap kali ada update
+
+### Per Menu (Manual/Exploratory):
+- Contoh: Edit profil, galeri foto, artikel, dsb.
+- Alasan: Risiko rendah, cukup diuji manual berdasarkan prioritas
+
+---
 
