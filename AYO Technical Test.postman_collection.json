@@ -1,0 +1,157 @@
+{
+	"info": {
+		"_postman_id": "34c629f8-9f6d-43af-8641-118f858aaeae",
+		"name": "AYO Technical Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17606224"
+	},
+	"item": [
+		{
+			"name": "Double Booking",
+			"item": [
+				{
+					"name": "TC 01 Double Book dengan User yang Sama",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code 400 - slot sudah dipakai\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Error code harus Slot Already Booked\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.error_code).to.eql(\"Slot Already Booked\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"venue_id\": 15,\r\n  \"date\": \"2022-12-10\",\r\n  \"start_time\": \"09:00:00\",\r\n  \"end_time\": \"11:00:00\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TC 02 Double Book dengan User yang beda",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code 400 - slot sudah dipakai\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Error code harus Slot Already Booked\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.error_code).to.eql(\"Slot Already Booked\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"venue_id\": 15,\r\n  \"date\": \"2022-12-10\",\r\n  \"start_time\": \"09:00:00\",\r\n  \"end_time\": \"11:00:00\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Harga dan Slot",
+			"item": [
+				{
+					"name": "TC 04 Booking Cek Harga",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code harus 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"const res = pm.response.json();\r",
+									"const start = res.start_time;\r",
+									"const end = res.end_time;\r",
+									"const actualPrice = res.price;\r",
+									"\r",
+									"function getExpectedPrice(start, end) {\r",
+									"    if (start === \"07:00:00\" && end === \"09:00:00\") {\r",
+									"        return 800000;\r",
+									"    } else if (start === \"09:00:00\" && end === \"11:00:00\") {\r",
+									"        return 1000000;\r",
+									"    } else if (start === \"11:00:00\" && end === \"13:00:00\") {\r",
+									"        return 1200000;\r",
+									"    } else {\r",
+									"        return null;\r",
+									"    }\r",
+									"}\r",
+									"const expectedPrice = getExpectedPrice(start, end);\r",
+									"\r",
+									"if (expectedPrice === null) {\r",
+									"    pm.test(\"Slot waktu tidak valid\", function () {\r",
+									"        pm.expect.fail(`Waktu booking ${start}–${end} tidak ditemukan di jadwal.`);\r",
+									"    });\r",
+									"} else {\r",
+									"    pm.test(`Harga booking harus sesuai (${expectedPrice})`, function () {\r",
+									"        pm.expect(actualPrice).to.eql(expectedPrice);\r",
+									"    });\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"venue_id\": 15,\r\n  \"date\": \"2022-12-10\",\r\n  \"start_time\": \"09:00:00\",\r\n  \"end_time\": \"11:00:00\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
